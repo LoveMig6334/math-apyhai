@@ -3,7 +3,12 @@
 
 import multiprocessing as mp
 
-from benchmark_core import BenchmarkConfig, get_system_info, run_multi_core, run_single_core
+from benchmark_core import (
+    BenchmarkConfig,
+    get_system_info,
+    run_multi_core,
+    run_single_core,
+)
 
 
 def main() -> None:
@@ -28,7 +33,9 @@ def main() -> None:
     print(f"\nPerfomance (avg, 1 core): {single['average_seconds']}s")
     print(f"Single-Core Operations per second: {int(single['ops_per_second'])}\n")
     print("\n--- Multicore Benchmark ---\n")
-    print(f"Utilizing up to {min(mp.cpu_count(), config.iterations)} cores for benchmarking...\n")
+    print(
+        f"Utilizing up to {min(mp.cpu_count(), config.iterations)} cores for benchmarking...\n"
+    )
     multi = run_multi_core(config, progress_cb=multi_progress)
     print(f"\nUsed cores: {multi['used_cores']}\n")
     print(f"Perfomance (avg, all cores): {multi['average_core_seconds']}s")

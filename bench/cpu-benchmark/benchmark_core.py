@@ -3,10 +3,10 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
 import multiprocessing as mp
 import platform
 import time
+from dataclasses import dataclass
 from typing import Callable, Dict, List, Optional, Tuple
 
 import cpuinfo
@@ -104,14 +104,18 @@ def run_multi_core(
     ctx = mp.get_context("spawn")
 
     with ctx.Pool(processes=len(tasks)) as pool:
-        for idx, (duration, ops) in enumerate(pool.imap_unordered(_multicore_worker, tasks), start=1):
+        for idx, (duration, ops) in enumerate(
+            pool.imap_unordered(_multicore_worker, tasks), start=1
+        ):
             core_durations.append(duration)
             total_ops += ops
             if progress_cb:
                 progress_cb(idx, len(tasks), duration)
 
     total_time = round(time.perf_counter() - start_time, 3)
-    average_core_seconds = round(sum(core_durations) / len(core_durations), 3) if core_durations else 0.0
+    average_core_seconds = (
+        round(sum(core_durations) / len(core_durations), 3) if core_durations else 0.0
+    )
     ops_per_second = total_ops / total_time if total_time else 0.0
 
     return {
