@@ -36,7 +36,7 @@ def timer_bench(func, n: int) -> float:
     if func(n) is True:
         return perf_counter() - start_time
 
-    return None
+    return 0
 
 
 def main() -> None:
